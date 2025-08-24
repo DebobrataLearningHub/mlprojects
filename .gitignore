@@ -10,6 +10,7 @@ __pycache__/
 .Python
 logs/
 artifactory/
+catboost_info/
 build/
 develop-eggs/
 dist/
