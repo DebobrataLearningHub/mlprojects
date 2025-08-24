@@ -17,11 +17,3 @@ class CustomException(Exception):
         file_name,exc_tb.tb_lineno,str(error))
 
         return error_message
-    
-
-
-if __name__ == "__main__":
-    try:
-        a = 1/0
-    except Exception as e:
-        raise CustomException(e,sys)

@@ -1,9 +1,11 @@
 import os
+import sys
 import numpy as np
 import pandas as pd
 from src.logger import logging
 from src.config import Config
-from src.utility import create_data_formation_object
+from src.exception import CustomException
+from src.utility import create_data_formation_object,save_object
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
@@ -19,8 +21,9 @@ class DataTransormation:
             logging.info("Data Transformation START")
             train_df = pd.read_csv(self.config.train_data_path)
             test_df = pd.read_csv(self.config.test_data_path)
-            preprocessor = create_data_formation_object(
-                num_columns, cat_columns)
+
+            preprocessor = create_data_formation_object(num_columns, cat_columns,target_column)
+
             train_input_df = train_df.drop(columns=[target_column], axis=1)
             train_target_df = train_df[target_column]
             test_input_df = test_df.drop(columns=[target_column], axis=1)
@@ -31,6 +34,8 @@ class DataTransormation:
 
             train_arr = np.c_[train_input_df_arr, np.array(train_target_df)]
             test_arr = np.c_[test_input_df_arr, np.array(test_target_df)]
+            save_object(self.config.preprocessor_file_path,preprocessor)
+
             logging.info("Data Transformation END")
             return(
                 train_arr,
@@ -38,4 +43,4 @@ class DataTransormation:
             )
 
         except Exception as e:
-            logging.error(e)
+            raise CustomException(e,sys)

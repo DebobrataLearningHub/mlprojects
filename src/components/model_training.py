@@ -1,6 +1,8 @@
 import os
+import sys
 from src.logger import logging
 from src.config import Config
+from src.exception import CustomException
 from src.utility import save_object,evaluate_models
 from sklearn.metrics import r2_score
 from sklearn.linear_model import LinearRegression
@@ -52,7 +54,7 @@ class ModelTraining:
             predicted=best_model.predict(X_test)
 
             r2_square = r2_score(y_test, predicted)
-            return r2_square
+            return (r2_square,best_model_name)
         except Exception as e:
-            logging.error(e)
+            raise CustomException(e,sys)
 
