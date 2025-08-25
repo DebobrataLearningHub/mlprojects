@@ -6,6 +6,7 @@ from src.exception import CustomException
 from src.logger import logging
 
 
+
 def main():
     try:
         st.title("Provide student data to predic the Math Score")
